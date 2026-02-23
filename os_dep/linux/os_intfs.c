@@ -1081,8 +1081,15 @@ module_param(rtw_suspend_type, uint, 0644);
 #endif
 
 #ifdef RTW_BUSY_DENY_SCAN
-uint rtw_scan_interval_thr = BUSY_TRAFFIC_SCAN_DENY_PERIOD;
-module_param(rtw_scan_interval_thr, uint, 0644);
+/* Default changed from BUSY_TRAFFIC_SCAN_DENY_PERIOD (16000ms) to 1ms.
+ * With the original default, scans during busy traffic were allowed for the
+ * first 16s after each scan, causing rtw_leave_opch() to freeze all TX for
+ * the duration of the off-channel dwell (~200ms every ~16s).  Setting this
+ * to 1 denies any scan attempted while traffic is busy, eliminating the
+ * periodic TX blackout in managed (STA) mode.  Override via modprobe if
+ * background scanning is needed: options 8812eu rtw_scan_interval_thr=16000
+ */
+uint rtw_scan_interval_thr = 1;
 MODULE_PARM_DESC(rtw_scan_interval_thr, "Threshold used to judge if scan " \
 		 "request comes from scan UI, unit is ms.");
 #endif /* RTW_BUSY_DENY_SCAN */
