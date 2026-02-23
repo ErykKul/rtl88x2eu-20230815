@@ -1090,6 +1090,7 @@ module_param(rtw_suspend_type, uint, 0644);
  * background scanning is needed: options 8812eu rtw_scan_interval_thr=16000
  */
 uint rtw_scan_interval_thr = 1;
+module_param(rtw_scan_interval_thr, uint, 0644);
 MODULE_PARM_DESC(rtw_scan_interval_thr, "Threshold used to judge if scan " \
 		 "request comes from scan UI, unit is ms.");
 #endif /* RTW_BUSY_DENY_SCAN */
